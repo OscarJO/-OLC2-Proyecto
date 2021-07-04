@@ -14,7 +14,7 @@ export class CD3 {
     }
 
     getEncabezado(){
-        let traduccion = `/* --- --- --- ENCABEZADO --- --- --- */\n#include <stdio.h> \n#include <math.h>\n`
+        let traduccion = `/* --- --- --- PRIMERA LINEA --- --- --- */\n#include <stdio.h> \n#include <math.h>\n`
         traduccion += ` double heap[${this.heap.tamanio}];\n double stack[${this.stack.tamanio}];\n double P;\n double H; \n double t0`   
         for (let index = 1; index < this.contadorTemporales; index++) {
             traduccion += `, t${index}`
@@ -27,13 +27,11 @@ export class CD3 {
    
 
     getTraduccion(entorno){        
-        let traduccion = `/* --- --- --- MAIN --- --- --- */\nvoid main() {\n\tP = ${this.stack.sp}; H =  ${this.heap.hp}; \n \n`; 
-        console.log('VOY A TRADUCIR ESTO ->', entorno)
+        let traduccion = `/* --- --- ---METODO  MAIN --- --- --- */\nvoid main() {\n\tP = ${this.stack.sp}; H =  ${this.heap.hp}; \n \n`; 
         let traducir = this.traducirXML2(entorno, '', 0, 0)
         traduccion += traducir.traduccion; 
-        traduccion += '\t return ; \n} // Fin de la traducción de XML '
+        traduccion += '\t return ; \n} // TERMINANDO TRADUCCION XML '
 
-        //traducir.traduccion = this.getEncabezado() + traduccion; 
         traducir.traduccion = traduccion; 
         console.log('HEAP ---->', this.heap.lista)
         console.log('STACK -->', this.stack.lista)
@@ -42,21 +40,20 @@ export class CD3 {
 
     traducirXML(entorno, contadorObjeto){
         let traduccion = ''
-        var valorH = this.heap.hp;  // para ver el valor que lleva el temporal del Heap Pointer 
+        var valorH = this.heap.hp;  
 
-        for(let atributo of entorno.atributos){  // Traducimos los atributos 
+        for(let atributo of entorno.atributos){  
             traduccion += ` t${this.contadorTemporales} = H;\n`
             valorH = this.heap.hp; 
             
             
             for (let index = 0; index < atributo.valor.length; index++) {
-                //console.log(atributo.valor[index])
-                traduccion += ` heap[(int)H] = ${atributo.valor[index].charCodeAt(0)}; \n H = H + 1 ; \n`  // aumentamos el heap y guardamos caracter por caracter de la cadena
+                traduccion += ` heap[(int)H] = ${atributo.valor[index].charCodeAt(0)}; \n H = H + 1 ; \n`  
                 this.heap.lista.push(atributo.valor[index].charCodeAt(0)); 
                 this.heap.hp++; 
             }
 
-            traduccion += ` heap[(int)H] = -1; \n H = H + 1; \n stack[(int)${this.stack.sp}] = t${this.contadorTemporales}; // Atributo guardado\n`
+            traduccion += ` heap[(int)H] = -1; \n H = H + 1; \n stack[(int)${this.stack.sp}] = t${this.contadorTemporales}; // Guardamos el atributo\n`
             this.heap.lista.push(-1); 
             this.heap.hp++; 
             this.contadorTemporales++; 
@@ -68,16 +65,16 @@ export class CD3 {
             
         }
 
-        if(entorno.tipo != "/"){  // Los objetos que no tienen objetos dentro
+        if(entorno.tipo != "/"){  
             if(entorno.texto != ""){
                 traduccion += ` t${this.contadorTemporales} = H; \n`
                 valorH = this.heap.hp; 
                 for (let index = 0; index < entorno.texto.length; index++) {
-                    traduccion += ` heap[(int)H] = ${entorno.texto[index].charCodeAt(0)}; \n H = H + 1 ; \n`  // aumentamos el heap y guardamos caracter por caracter el texto
+                    traduccion += ` heap[(int)H] = ${entorno.texto[index].charCodeAt(0)}; \n H = H + 1 ; \n`  
                     this.heap.lista.push(entorno.texto[index].charCodeAt(0)); 
                     this.heap.hp++;                     
                 }
-                traduccion += ` heap[(int)H] = -1; \n H = H + 1; \n stack[(int)${this.stack.sp}] = t${this.contadorTemporales}; // Objeto guardado\n`
+                traduccion += ` heap[(int)H] = -1; \n H = H + 1; \n stack[(int)${this.stack.sp}] = t${this.contadorTemporales}; // Guardamos el objeto\n`
                 this.heap.lista.push(-1); 
                 this.heap.hp++; 
                 this.contadorTemporales++; 
@@ -88,12 +85,12 @@ export class CD3 {
                 this.stack.sp++; 
                 
 
-            }else{  // VER QUE HACER CON LOS OBJETOS DENTRO DE OBJETOS 
-                traduccion += '// Aqui debo guardar un objeto que contiene mas objetos\n'
+            }else{  
+                traduccion += '// Objeto anidado dentro de otro\n'
             }
         }
 
-        for(let objeto of entorno.hijos){   // METODO RECURSIVO PARA LOS DEMAS OBJETOS
+        for(let objeto of entorno.hijos){   
             var retorno = this.traducirXML(objeto, contadorObjeto); 
             traduccion +=  retorno.traduccion; 
             objeto = retorno.objeto; 
@@ -112,12 +109,12 @@ export class CD3 {
         let stackObjeto = 0; 
        
         if((objeto.hijos.length > 0 ||  objeto.atributos.length > 0) &&  objeto.tipo != "/" ){ 
-            traduccion += ` t${this.contadorTemporales} = H;  // Objeto trae otros objetos ${objeto.tipo}\n`    // temporal donde va iniciar mi objeto este lo tengo que guardar en el stack []
+            traduccion += ` t${this.contadorTemporales} = H;  // Objeto anidado dentro de otros ${objeto.tipo}\n`    
             
-            /* Temporales para el Objeto General  */ 
-            temporalInicioObjeto = this.contadorTemporales          // guardo el numero de temporal donde inicia mi objeto             
+            
+            temporalInicioObjeto = this.contadorTemporales          
             this.contadorTemporales++; 
-            temporalObjeto = this.contadorTemporales;      // el numero de temporal que va ir manejando mi objeto 
+            temporalObjeto = this.contadorTemporales;     
             this.contadorTemporales++;
             
             hp = this.heap.hp; 
@@ -128,19 +125,19 @@ export class CD3 {
             this.stack.lista[stackObjeto] = heapObjeto; 
             
 
-            traduccion += ` H = H + ${objeto.hijos.length + objeto.atributos.length + 1}; \n`   // reservo el espacio de memoria en mi heap 
-            this.heap.hp += objeto.hijos.length + objeto.atributos.length + 1;       // Guardamos el espacio en el heap 
-            traduccion += ` t${temporalObjeto} = t${temporalInicioObjeto}; \n`   // En este temporal es que se va ir guardando la posicion en el stack donde estan los demas objetos 
+            traduccion += ` H = H + ${objeto.hijos.length + objeto.atributos.length + 1}; \n`   
+            this.heap.hp += objeto.hijos.length + objeto.atributos.length + 1;       
+            traduccion += ` t${temporalObjeto} = t${temporalInicioObjeto}; \n`   
                
         }   
 
         for(let atributo of objeto.atributos){
             traduccion += ` t${this.contadorTemporales} = H;  // Empieza ${atributo.nombre} = ${atributo.valor}\n`
-            hp = this.heap.hp;                                            // contador del heap 
-            let hpInicio = hp;                                            // posicion en el heap donde inicia mi atributo 
+            hp = this.heap.hp;                                            
+            let hpInicio = hp;                                            
             
-            /* Temporales Atributos para manejar la traduccion */ 
-            let inicioAtributo =  this.contadorTemporales;                // temporal que usa mi atributo en donde esta el inicio 
+            
+            let inicioAtributo =  this.contadorTemporales;                
             this.contadorTemporales++;                   
             let temporalAtributo =  this.contadorTemporales; 
             this.contadorTemporales++; 
@@ -159,14 +156,14 @@ export class CD3 {
             traduccion += ` heap[(int)t${temporalAtributo}] = -1; \n`
             this.heap.lista[hp] = -1; 
             hp++; 
-            traduccion += ` stack[(int)${sp}] = t${inicioAtributo}; // Agregue mi atributo al stack []\n`
+            traduccion += ` stack[(int)${sp}] = t${inicioAtributo}; // Stack recibe nuevo atributo []\n`
             atributo.posicion  = sp; 
             this.stack.lista[sp] = hpInicio
 
             if(objeto.tipo != "/"){
-                traduccion += ` t${this.contadorTemporales} = stack[(int)${sp}];  // agregue mi atributo en el heap del objeto \n`   // agregar mi atributo al objeto 
+                traduccion += ` t${this.contadorTemporales} = stack[(int)${sp}];  // Heap recibe nuevo objeto \n`   // agregar mi atributo al objeto 
                
-                traduccion += ` heap[(int)${heapObjeto}] = t${this.contadorTemporales}; // agregue mi atributo en el heap del objeto\n`
+                traduccion += ` heap[(int)${heapObjeto}] = t${this.contadorTemporales}; // Heap recibe nuevo atributo de objeto\n`
                 this.heap.lista[heapObjeto] = sp; 
                 heapObjeto++; 
                 this.contadorTemporales++; 
@@ -177,7 +174,7 @@ export class CD3 {
         
         if(objeto.texto != ""){           
 
-            //Temporales para el objeto con texto puede o no tener atributos
+            
             let temporalInicioO = this.contadorTemporales; 
             this.contadorTemporales++; 
             let temporalO = this.contadorTemporales; 

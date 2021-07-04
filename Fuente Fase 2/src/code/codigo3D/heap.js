@@ -1,10 +1,10 @@
 export class Heap {
-    tamanio = 0; 
+    size = 0; 
     hp = 0; 
     lista = null; 
 
-    constructor(tamanio, hp){
-        this.tamanio = tamanio; 
+    constructor(size, hp){
+        this.size = size; 
         this.hp = hp;
         this.lista = []; 
     }

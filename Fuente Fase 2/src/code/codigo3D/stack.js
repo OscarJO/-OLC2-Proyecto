@@ -1,10 +1,10 @@
 export class Stack {
-    tamanio = 0; 
+    size = 0; 
     sp = 0; 
     lista = null; 
 
-    constructor(tamanio, sp){
-        this.tamanio = tamanio; 
+    constructor(size, sp){
+        this.size = size; 
         this.sp = sp; 
         this.lista = []; 
     }

@@ -70,7 +70,7 @@ export class XPATHC3D {
         let spInicio = this.stack.lista.length;
 
         //Se inicia a guardar consulta
-        cadena = `/* --- --- --- INICIO XPATH --- --- --- */ \r\n`;
+        cadena = `/* --- --- --- COMENZANDO XPATH --- --- --- */ \r\n`;
         cadena += `void Consulta() {\r\n`;
         cadena += `if (1 == 1) goto ${lv};\r\n`;
         cadena += `goto ${lf};\r\n`;
@@ -78,19 +78,19 @@ export class XPATHC3D {
         cadena += `${tempInicio} = H;\r\n`;
         hpInicio = this.heap.hp;
 
-        cadena += `heap[(int)H] = 225; //Guardo esto en heap "Inicio Consulta" \r\n`;
+        cadena += `heap[(int)H] = 225; //Guardando en heap "Inicio sentencia XPath" \r\n`;
         cadena += this.getHP();
         this.heap.lista.push(225);
         this.heap.hp++;
 
 
         for (let index = 0; index < resultado.length; index++) {
-            cadena += `heap[(int)H] = ${resultado[index].charCodeAt(0)}; //Guardo esto en heap ${resultado[index]} \r\n`;
+            cadena += `heap[(int)H] = ${resultado[index].charCodeAt(0)}; //Guardando en heap ${resultado[index]} \r\n`;
             cadena += this.getHP();
             this.heap.lista.push(resultado[index].charCodeAt(0));
             this.heap.hp++;
         }
-        cadena += `heap[(int)H] = -1; //Guardo esto en heap -1 \r\n`;
+        cadena += `heap[(int)H] = -1; //Guardando en heap, posición -1 \r\n`;
         cadena += this.getHP();
         this.heap.lista.push(-1);
         this.heap.hp++;
@@ -110,8 +110,8 @@ export class XPATHC3D {
         cadena += imprimir;
         
 
-        console.log('HEAP XPATH ---->', this.heap.lista)
-        console.log('STACK XPATH -->', this.stack.lista)
+        console.log('Contenido del heap en XPath =', this.heap.lista)
+        console.log('Contenido del stack en Xpath =', this.stack.lista)
 
         return cadena;
 
