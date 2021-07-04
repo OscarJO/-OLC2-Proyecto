@@ -44,7 +44,7 @@ class InConsole extends React.Component{
                 <div className="col-2 block">
                     <div className ="row">
                         <Link to= {{ pathname: "/tytusx/20211SVAC/G01", datos:this.datos }}>
-                            <button type="button" className="btn btn-primary btn-lg">Atrás</button>
+                            <button type="button" className="btn btn-outline-dark">Regresar</button>
                         </Link>
                     </div>
                 </div>
@@ -78,7 +78,6 @@ class InConsole extends React.Component{
                         graph={this.datos}
                         options={this.options}
                         events={this.events}
-                        //style={style}
                         getNetwork={this.getNetwork}
                         getEdges={this.getEdges}
                         getNodes={this.getNodes}
@@ -97,7 +96,6 @@ class InConsole extends React.Component{
                         graph={this.datosXML}
                         options={this.options}
                         events={this.events}
-                        //style={style}
                         getNetwork={this.getNetwork}
                         getEdges={this.getEdges}
                         getNodes={this.getNodes}
@@ -116,7 +114,6 @@ class InConsole extends React.Component{
                         graph={this.datosAST}
                         options={this.options}
                         events={this.events}
-                        //style={style}
                         getNetwork={this.getNetwork}
                         getEdges={this.getEdges}
                         getNodes={this.getNodes}

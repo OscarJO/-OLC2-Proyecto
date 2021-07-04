@@ -9,7 +9,7 @@ class Gramatical extends React.Component{
         super(props);
         this.TablaGramatical = this.props.location.TablaGramatical;
         this.TablaGramticalXPath = this.props.location.TablaGramticalXPath;
-        console.log("Esto es lo que trae la tabla gramatical");
+        console.log("Contenido del análisis gramatical");
         console.log(this.TablaGramatical);
     }
 
@@ -26,7 +26,7 @@ class Gramatical extends React.Component{
                 <div className="col-2 block">
                     <div className ="row">
                         <Link to= {{ pathname: "/tytusx/20211SVAC/G01" }}>
-                            <button type="button" className="btn btn-primary btn-lg">Atrás</button>
+                            <button type="button" className="btn btn-outline-dark">Regresar</button>
                         </Link>
                     </div>
                 </div>
