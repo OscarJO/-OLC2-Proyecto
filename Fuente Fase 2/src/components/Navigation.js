@@ -15,7 +15,6 @@ require('../../node_modules/codemirror/mode/xml/xml')
 require('../../node_modules/codemirror/mode/javascript/javascript')
 require('../../node_modules/codemirror/mode/clike/clike')
 
-//const XPath = require('../code/analizadorXPath/Xpath')
 const XPathDesc = require('../code/analizadorXPath/XPathDesc')
 const grammar = require('../code/analizadorXML/grammar')
 const grammarDesc = require('../code/analizadorXMLDesc/grammarDesc')
@@ -121,22 +120,22 @@ class Navigation extends React.Component{
 
     }
 
-    setText(){  // ANALISIS ASCENDENTE XPATH 
+    setText(){  
         console.log("setText Button clicked");
         let text = this.state.InputTextarea;
         if(text=="") return
-        var funcion = parseXPath(text); //XPATH 
+        var funcion = parseXPath(text); 
         if(funcion.errores.length > 0)
         {
             alert("Se detectaron errores en la entrada :( Xpath")
             console.log(funcion.errores)
         }
         console.log(funcion)
-        var respuesta=funcion.Ejecutar(this.state.XML);   // donde esta esta funcion.Ejecutar   // ENTORNO  // 
+        var respuesta=funcion.Ejecutar(this.state.XML);   
         var c3dXpath = this.getXpathC3D(respuesta);
-        //console.log(c3dXpath);
+    
         this.setState({OutputTextarea: respuesta});  
-        //console.log('EN TEORIA DEBO DE GUARDAR', respuesta);
+    
         var AST = funcion.Graficar();
         this.setState({AST:AST})
         funcion.InvertirNodes()
@@ -144,30 +143,9 @@ class Navigation extends React.Component{
         this.setState({datosCST:datos}) 
         this.setState({MistakesXPath: funcion.errores})
         this.setState({TablaGramticalXPath: funcion.tablaGramatica});
-       // this.ejecutarConsulta(text); 
     }
 
- /*   setTextDesc(){  // DESCENDENTE XPATH 
-        console.log("setTextDesc Button clicked");
-        let text = this.state.InputTextarea;
-        if(text=="") return
-        var funcion = XPathDesc.parse(text);
-        if(funcion.errores.length > 0)
-        {
-            alert("Se detectaron errores en la entrada :( Xpath")
-            console.log(funcion.errores)
-        }
-        var respuesta=funcion.Ejecutar(this.state.XML);
-        this.setState({OutputTextarea: respuesta});  
-        var AST = funcion.Graficar();
-        this.setState({AST:AST})
-        funcion.InvertirNodes()
-        var datos = {nodes:funcion.Nodos,edges:funcion.Edges}   
-        this.setState({datosCST:datos}) 
-        this.setState({graphvizCST:funcion.graphviz})
-        this.setState({MistakesXPath: funcion.errores})
-        this.setState({TablaGramticalXPath: funcion.tablaGramatica.reverse()});
-    }*/
+ 
 
     xmlDesc(){
         var x = this.state.XMLTextarea;
@@ -185,18 +163,18 @@ class Navigation extends React.Component{
         this.setState({TablaGramatical: resultado.tabla.reverse()})
     }
  
-    actualizar(){ // ANALIZADOR ASCENDENTE XML - Ver como guardan los datos en la tabla de simbolos para la traducción 
+    actualizar(){ 
         console.log('Hola')
         var x = this.state.XMLTextarea;
         var resultado = grammar.parse(x)
         if(resultado.errores.length>0)
         {
-            //alert("Errores en el analisis del XML")
+            
             console.log(`Errores en el analisis del XML`)
             return
         }
         resultado.datos = this.getC3D(resultado.datos); 
-        this.setState({XML:resultado.datos}) // resultado.datos estan los objetos // this.state.XML el entorno
+        this.setState({XML:resultado.datos}) 
         this.setState({datosCSTXML:{nodes:resultado.nodes,edges:resultado.edges}})
         this.setState({Mistakes: resultado.errores})   
         this.setState({TablaGramatical: resultado.tabla})
@@ -209,23 +187,23 @@ class Navigation extends React.Component{
         this.codigoXml = codigo.traduccion;
         this.codigoC3D = this.getEncabezado() + this.codigoXml;
 
-        //this.setState({TraductorTextArea: codigo.traduccion})
+        
         this.setState({TraductorTextArea: this.codigoC3D})
 
         this.contadorTemporal = traducir.getTemporal();
-        console.log(this.contadorTemporal, `<--------Temp Xml`);
+        console.log(this.contadorTemporal, `<--------Temporales XML`);
 
         this.heap = traducir.getHeap();
-        console.log(this.heap.hp, `<--------Heap Xml`);
+        console.log(this.heap.hp, `<--------Heap XML`);
 
         this.stack = traducir.getStack();
-        console.log(this.stack.lista.length, `<--------Stack Xml`);
+        console.log(this.stack.lista.length, `<--------Stack XML`);
 
         return codigo.objeto
     }
 
     getEncabezado(){
-        let traduccion = `/* --- --- --- ENCABEZADO --- --- --- */\n#include <stdio.h> \n#include <math.h>\n`
+        let traduccion = `/* --- --- --- PRIMERA LINEA --- --- --- */\n#include <stdio.h> \n#include <math.h>\n`
         traduccion += ` double heap[31110999];\n double stack[31110999];\n double P;\n double H; \n double t0`   
         for (let index = 1; index < this.contadorTemporal; index++) {
             traduccion += `, t${index}`
@@ -416,35 +394,11 @@ class Navigation extends React.Component{
             </nav>
 
             
-                Organización de Lenguajes y Compiladores 2
+                TytusX - Fase 2
             <p></p>
             
 
-            <div className="container">
-                <div className="row">
-                    <div className="col-3">
-                        <div className="custom-file">
-                            <input  multiple={false} accept=".xml" id="fileinput" className="fileinput" type="file" ref={this.fileInput} onChange={this.handleSubmit}/>
-                            <label htmlFor="fileinput">Subir XML</label>
-                        </div>
-                    </div>
-                    <div className="col-3">
-                        <a style={{display: "none"}}
-                            download={"archivo.xml"}
-                            href={this.state.fileDownloadUrl}
-                            ref={e=>this.dofileDownload = e}
-                        >download it</a>
-                        <button className="btn btn-secondary btn-lg" onClick={() => this.descargar()}>Descargar XML</button>
-                    </div>
-                    <div className="col-6">
-                        <div className="custom-file">
-                            <input  multiple={false} accept=".xml" id="fileinput2" className="fileinput" type="file" ref={this.fileReader2} onChange={this.handleSubmitPath}/>
-                            <label htmlFor="fileinput2">Subir XPath</label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+            
             <div className="container">
                 <div className="row">
                     <p></p>
@@ -457,7 +411,7 @@ class Navigation extends React.Component{
                     <div className="col-6 block">
                         
                         <div className="row container">
-                            <label className="labelClass">Editor de XML </label>
+                            <label className="labelClass">Ingresar XML </label>
                             {/* <textarea className="Text" placeholder="Bienvenido" defaultValue={this.state.XMLTextarea} onChange={this.handleXML} onBlur={this.handleFocus} /> */}
                             <CodeMirror
                              className="codeMirror"
@@ -484,7 +438,7 @@ class Navigation extends React.Component{
                     </div>
                     <div className="col-6 block">
                         <div className="row container">
-                            <label className="labelClass"> Editor de XQUERY / XPATH </label> 
+                            <label className="labelClass"> Ingresar Consulta </label> 
                             <CodeMirror
                              className="codeMirror"
                              value = {this.state.InputTextarea}
@@ -505,10 +459,10 @@ class Navigation extends React.Component{
                         <div className="row">
                             <p></p>
                             <div className="col-6 block"> 
-                                <button type="submit" className="btn btn-primary btn-lg" onClick={ () => this.setText() }>Ejecutar Ascendente </button>
+                                <button type="submit" className="btn btn-primary btn-lg" onClick={ () => this.setText() }>Análisis XPath </button>
                             </div>                            
                             <div className="col-6 block">
-                                <button type="submit" className="btn btn-primary btn-lg" onClick={ () => this.ejecutarXQuery() }> Ejecutar XQuery </button>
+                                <button type="submit" className="btn btn-primary btn-lg" onClick={ () => this.ejecutarXQuery() }> Análisis XQuery </button>
                             </div>
                         </div>
 

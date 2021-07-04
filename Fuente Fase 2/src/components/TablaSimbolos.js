@@ -81,7 +81,7 @@ class TablaSimbolos extends React.Component{
     render(){
         return(
             <header className="App-header">
-                    Organización de Lenguajes y Compiladores 2
+                    TytusX - Fase 2
                 <p></p>
 
                 <div className="col-2 block">

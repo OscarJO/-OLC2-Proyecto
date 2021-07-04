@@ -20,7 +20,7 @@ class Gramatical extends React.Component{
             <header className="App-header">
     
                 <img src={logo} className="App-logo" alt="logo" />
-                    Organización de Lenguajes y Compiladores 2
+                    TytusX - Fase 2
                 <p></p>
 
                 <div className="col-2 block">
@@ -50,7 +50,7 @@ class Gramatical extends React.Component{
                     <thead> 
                     <tr> 
                         <th>Producción</th> 
-                        <th>Acción Semántica</th>                        
+                        <th>Acción</th>                        
                     </tr> 
                     </thead>
                     <tbody>
@@ -92,7 +92,7 @@ class Gramatical extends React.Component{
                     <thead> 
                     <tr> 
                         <th>Producción</th> 
-                        <th>Acción Semántica</th>
+                        <th>Acción</th>
                     </tr> 
                     </thead>
                     <tbody>

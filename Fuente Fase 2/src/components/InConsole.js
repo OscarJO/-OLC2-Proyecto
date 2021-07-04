@@ -38,7 +38,7 @@ class InConsole extends React.Component{
     render(){
         return(
             <header className="App-header">
-                    Organización de Lenguajes y Compiladores 2
+                    TytusX - Fase 2
                 <p></p>
 
                 <div className="col-2 block">
@@ -54,7 +54,7 @@ class InConsole extends React.Component{
                 <p></p>
                 <p></p>
 
-                <label>Árbol XQUERY CST</label>
+                <label>Árbol CST del Xquery</label>
                 <div className = "container-fluid">
                     <Graph
                         graph={this.datosXQuery}
@@ -72,7 +72,7 @@ class InConsole extends React.Component{
                 <p></p>
                 <p></p>
                 
-                <label>Árbol XPath CST</label>
+                <label>Árbol CST del XPath</label>
                 <div className = "container-fluid">
                     <Graph
                         graph={this.datos}
@@ -91,7 +91,7 @@ class InConsole extends React.Component{
                 <p></p>
                 <p></p>
 
-                <label>Árbol XML CST</label>
+                <label>Árbol CST del XML</label>
                 <div className = "container-fluid">
                     <Graph
                         graph={this.datosXML}
@@ -110,7 +110,7 @@ class InConsole extends React.Component{
                 <p></p>
                 <p></p>
 
-                <label>Árbol XPath AST</label>
+                <label>Árbol AST del XPath</label>
                 <div className = "container-fluid">
                     <Graph
                         graph={this.datosAST}

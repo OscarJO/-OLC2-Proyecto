@@ -10,9 +10,9 @@ class TablaErrores extends React.Component{
         this.Mistakes = this.props.location.Mistakes;
         this.MistakesXPath = this.props.location.MistakesXPath;
         this.ErroresXQuery = this.props.location.ErroresXQuery; 
-        console.log("Aqui estan los errores XML");
+        console.log("Mostrando errores XML...");
         console.log(this.Mistakes);
-        console.log("Aqui estan los errores XPath");
+        console.log("Mostrando errores XPath...");
         console.log(this.MistakesXPath);
     }
 
@@ -23,7 +23,7 @@ class TablaErrores extends React.Component{
             <header className="App-header">
     
                 <img src={logo} className="App-logo" alt="logo" />
-                    Organización de Lenguajes y Compiladores 2
+                    TytusX - Fase 2
                 <p></p>
 
                 <div className="col-2 block">
